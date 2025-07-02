@@ -10,7 +10,7 @@ class NormalizeAudio(nn.Module):
         mean = x.mean()
         std = x.std()
         return (x - mean) / (std + 1e-8)
-        
+   
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, kernel_size, stride, padding):
         super().__init__()
@@ -58,7 +58,7 @@ class Encoder(nn.Module):
     
 # Running tests
 if __name__ == "__main__":
-    x = torch.randn(4, 1, 16000) 
+    x = torch.randn(4, 1, 242720) 
     block = ConvBlock(in_channels=1, kernel_size=10, stride=5, padding=1)
     out = block(x)
 
