@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from transformer.transformer_blocks import AttentionBlock, FeedForwardBlock
+from context.transformer.transformer_blocks import AttentionBlock, FeedForwardBlock
 
 class TransformerEncoder(nn.Module):
     def __init__(self, d_model, n_heads = 4, dropout = 0.1):
