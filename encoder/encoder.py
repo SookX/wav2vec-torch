@@ -50,10 +50,28 @@ class Encoder(nn.Module):
         super().__init__()
         self.NormalizeAudio = NormalizeAudio()
         self.Extractor = Extractor()
+        self.mask_embedding = nn.Parameter(torch.FloatTensor(512).uniform_())
     
+    def time_masking(self, x, mask_prob = 0.065, mask_length = 10):
+        batch_size, channels, features = x.shape
+        num_masked = int(features * mask_prob / mask_length)
+
+        mask_indices = torch.zeros(batch_size, features, dtype=torch.bool, device=x.device)
+        for batch in range(batch_size):
+            for _ in range(num_masked):
+                start = torch.randint(0, features - mask_length + 1, (1,)).item()
+                mask_indices[batch, start: start + mask_length] = True
+
+        transposed_x = x.permute(0, 2, 1)
+        transposed_x[mask_indices] = self.mask_embedding
+        masked_x = transposed_x.permute(0, 2, 1)
+
+        return masked_x
+
     def forward(self, x):
         x = self.NormalizeAudio(x) 
         x = self.Extractor(x)
+        x = self.time_masking(x)
         return x
     
 # Running tests
@@ -64,6 +82,3 @@ if __name__ == "__main__":
 
     encoder = Encoder()
     encoder_out = encoder(x)
-
-    print(out.shape) 
-    print(encoder_out.shape)
