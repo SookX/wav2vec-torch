@@ -45,7 +45,7 @@ class Extractor(nn.Module):
         
 
 
-class Encoder(nn.Module):
+class FeatureEncoder(nn.Module):
     def __init__(self):
         super().__init__()
         self.NormalizeAudio = NormalizeAudio()
@@ -80,5 +80,6 @@ if __name__ == "__main__":
     block = ConvBlock(in_channels=1, kernel_size=10, stride=5, padding=1)
     out = block(x)
 
-    encoder = Encoder()
+    encoder = FeatureEncoder()
     encoder_out = encoder(x)
+    print(encoder_out.shape)

@@ -2,11 +2,11 @@ import torch
 import torch.nn as nn
 
 class FeatureProjection(nn.Module):
-    def __init__(self, in_channels, out_channels = 768): # 768 - BASE, 1024 - LARGE
+    def __init__(self, in_channels, d_model = 768): # 768 - BASE, 1024 - LARGE
         super().__init__()
         self.in_channels = in_channels
-        self.out_channels = out_channels
-        self.projection_conv = nn.Conv1d(in_channels, out_channels, 1)
+        self.out_channels = d_model
+        self.projection_conv = nn.Conv1d(in_channels, d_model, 1)
     
     def forward(self, x):
         x = self.projection_conv(x)
