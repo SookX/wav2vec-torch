@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class DiversityLoss(nn.Module):
     def __init__(self):
-        pass
+        super().__init__()
     
     def forward(self, softmax_probs):
         avg_probs = softmax_probs.mean(dim=(0, 1))  

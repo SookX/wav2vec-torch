@@ -18,7 +18,7 @@ class Wav2Vec(nn.Module):
         preds = self.context(masked_features)
         preds = self.out_proj_layer(preds)
 
-        return preds, targets, negatives, softmax_outputs
+        return preds, targets, negatives, softmax_outputs, mask_indices
 
 
 if __name__ == "__main__":

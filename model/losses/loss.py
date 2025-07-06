@@ -11,5 +11,6 @@ class Loss(nn.Module):
         self.cl = ContrastiveLoss(temp)
         self.dl = DiversityLoss()
     
-    def forward(self, context, positive, negatives, softmax_probs):
-        loss = self.cl(context, positive, negatives) + self.alpha * self.dl(softmax_probs)
+    def forward(self, context, positive, negatives, softmax_probs, mask_indices):
+        loss = self.cl(context, positive, negatives, mask_indices) + self.alpha * self.dl(softmax_probs)
+        return loss
