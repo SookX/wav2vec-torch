@@ -70,40 +70,50 @@ class FeatureEncoder(nn.Module):
         return masked_x, mask_indices
     
     def get_negatives(self, z, mask_indices, K=100):
-    
-        z = z.permute(0, 2, 1)  
+        z = z.permute(0, 2, 1) 
         negative_indices = ~mask_indices  
         batch_size, time_steps, feature_dim = z.shape
 
         all_negatives = []
+        max_masked = 0
+
+        for b in range(batch_size):
+            masked_pos = torch.nonzero(mask_indices[b], as_tuple=False).squeeze(1)
+            max_masked = max(max_masked, masked_pos.numel())
 
         for b in range(batch_size):
             batch_negatives = []
-            masked_pos = torch.nonzero(mask_indices[b], as_tuple=False).squeeze(1)  
+            masked_pos = torch.nonzero(mask_indices[b], as_tuple=False).squeeze(1)
 
             for t in masked_pos:
                 candidate_indices = torch.nonzero(negative_indices[b], as_tuple=False).squeeze(1)
-
                 if candidate_indices.numel() < K:
                     raise RuntimeError(f"Not enough negative samples for batch {b}, timestep {t}")
 
                 sampled_indices = candidate_indices[torch.randperm(candidate_indices.size(0))[:K]]
                 neg_vectors = z[b, sampled_indices] 
-                batch_negatives.append(neg_vectors.unsqueeze(0)) 
+                batch_negatives.append(neg_vectors.unsqueeze(0))  
+
+            if len(batch_negatives) < max_masked:
+                pad = [torch.zeros_like(batch_negatives[0]) for _ in range(max_masked - len(batch_negatives))]
+                batch_negatives.extend(pad)
 
             batch_negatives = torch.cat(batch_negatives, dim=0) 
-            all_negatives.append(batch_negatives.unsqueeze(0))   
+            all_negatives.append(batch_negatives.unsqueeze(0))  
 
-        negatives = torch.cat(all_negatives, dim=0)
+        negatives = torch.cat(all_negatives, dim=0)  
         return negatives
+
 
             
 
     def forward(self, x):
         x = self.NormalizeAudio(x) 
-        x = self.Extractor(x)
-        x = self.time_masking(x)
-        return x
+        features = self.Extractor(x)     
+        masked_features, mask_indices = self.time_masking(features)
+        negatives = self.get_negatives(features, mask_indices) 
+        return masked_features, features, mask_indices, negatives
+
     
 # Running tests
 if __name__ == "__main__":
@@ -112,6 +122,5 @@ if __name__ == "__main__":
     out = block(x)
 
     encoder = FeatureEncoder()
-    encoder_out, mask_indices = encoder(x)
-    encoder.get_negatives(encoder_out, mask_indices)
-    print(encoder_out.shape)
+    masked_features, features, mask_indices, negatives = encoder(x)
+    print(masked_features.shape)

@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from context.transformer.encoder import TransformerEncoder
+from model.context.transformer.encoder import TransformerEncoder
 
 class Transformer(nn.Module):
     def __init__(self, d_model = 768, n_heads = 4, n_encoder = 3, dropout = 0.1):

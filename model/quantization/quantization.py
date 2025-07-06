@@ -22,10 +22,13 @@ class GumbelVectorQuantizer(nn.Module):
         x = x.view(batch_size, self.num_codebooks, self.codebook_channel, features)
 
         stack = []
+        probs = []
         for i in range(self.num_codebooks):
             x_i = x[:, i, :, :]
             projections = self.projections[i](x_i)
             logit_projections = F.gumbel_softmax(projections, tau=self.tau, hard=True, dim=1)
+            probs.append(logit_projections.permute(0, 2, 1))
+            
             embed = self.codebooks[i].weight
             out = torch.matmul(logit_projections.permute(0, 2, 1), embed)
 
@@ -33,7 +36,8 @@ class GumbelVectorQuantizer(nn.Module):
             stack.append(out)
         
         quantized = torch.cat(stack, dim=1)
-        return quantized            
+        probs = torch.stack(probs, dim=2)
+        return quantized, probs   
         
 
 if __name__ == "__main__":

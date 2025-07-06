@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from context.context import Context
-from extractor.extractor import FeatureEncoder
-from quantization.quantization import GumbelVectorQuantizer
+from model.context.context import Context
+from model.extractor.extractor import FeatureEncoder
+from model.quantization.quantization import GumbelVectorQuantizer
 
 class Wav2Vec(nn.Module):
     def __init__(self, d_model = 768):
@@ -13,18 +13,18 @@ class Wav2Vec(nn.Module):
         self.out_proj_layer = nn.Conv1d(d_model, 512, 1) # Only for pre-training
 
     def forward(self, x):
-        x, mask_indices = self.feature_enc(x)
-        targets = self.quantizer(x)
-        preds = self.context(x)
+        masked_features, features, mask_indices, negatives = self.feature_enc(x)
+        targets, softmax_outputs = self.quantizer(features)
+        preds = self.context(masked_features)
         preds = self.out_proj_layer(preds)
 
-        return preds, targets, mask_indices
+        return preds, targets, negatives, softmax_outputs
 
 
 if __name__ == "__main__":
     x = torch.rand(10, 1, 242720)
     model = Wav2Vec()
-    preds, targets, mask_indices = model(x)
+    preds, targets, mask_indices, softmax_probs = model(x)
     print(preds.shape)
     print(targets.shape)
     print(mask_indices.shape)

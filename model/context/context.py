@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 
 
-from context.transformer.transformer_model import Transformer
-from context.positional_encoding.positional_encoding import PositionalEncoding
-from context.projector.feature_projection import FeatureProjection
+from model.context.transformer.transformer_model import Transformer
+from model.context.positional_encoding.positional_encoding import PositionalEncoding
+from model.context.projector.feature_projection import FeatureProjection
 
 class Context(nn.Module):
     def __init__(self, in_channels = 512, d_model = 768, num_gropus = 16, n_heads = 4, n_encoder = 3, dropout = 0.1):
