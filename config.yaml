@@ -1,10 +1,10 @@
 model:
-  model_name: "wav2vec-mini" 
+  model_name: "wav2vec-mini-finetuned" 
   model_dimensions: 768
 
 training:
-  epochs: 5
-  batch_size: 16
+  epochs: 10
+  batch_size: 8
   learning_rate: 3e-4
 
 logging:
