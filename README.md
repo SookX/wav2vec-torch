@@ -114,7 +114,6 @@ Due to the scarcity of publicly available Bulgarian speech corpora, this project
 Key characteristics of the dataset:
 
 - **Total duration:** ~10 hours of audio  
-- **Sampling rate:** 22.05 kHz (downsampled to 16 kHz during preprocessing)  
 - **Content:** Read-aloud sentences from various Bulgarian texts  
 - **License:** Public and available for research use  
 
