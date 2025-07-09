@@ -96,7 +96,7 @@ The wav2vec 2.0 model was pretrained on the **LibriSpeech 100-hour** dataset usi
 - **Learning rate:** 3e-4  
 
 Training was performed on a single **NVIDIA RTX 3080 GPU** with 12 GB of VRAM.  
-The entire pretraining process took **≈ 25 hours**.
+The entire pretraining process took **≈ 12 hours**.
 
 ---
 
