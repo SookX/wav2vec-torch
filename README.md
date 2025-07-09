@@ -122,12 +122,52 @@ While the dataset is relatively small and intended for **text-to-speech (TTS)** 
 
 ---
 
+## 🔧 Quick Setup Example
+
+Here’s a minimal Python snippet to **load the model, optimizer, scheduler, and pretrained checkpoint** using your configuration:
+
+```python
+import torch
+from utils import get_device, load_config, load_pretrained
+from model.wav2vec2 import Wav2Vec
+from model.losses.loss import Loss
+
+# Load config and set device
+DEVICE = torch.device(get_device())
+config = load_config()
+
+# Parse config values
+MODEL_NAME = str(config["model"]["model_name"])
+MODEL_DIMENSIONS = int(config["model"]["model_dimensions"])
+
+EPOCHS = int(config["training"]["epochs"])
+BATCH_SIZE = int(config["training"]["batch_size"])
+LEARNING_RATE = float(config["training"]["learning_rate"])
+
+SAVE_CHECKPOINT_EVERY = int(config["logging"]["save_checkpoint_every"])
+CHECKPOINT_DIR = str(config["logging"]["checkpoint_dir"])
+
+# Initialize model components
+model = Wav2Vec(MODEL_DIMENSIONS).to(DEVICE)
+optimizer = torch.optim.Adam(model.parameters(), LEARNING_RATE)
+loss_fn = Loss()
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
+
+# Load pretrained weights
+checkpoint_path = "./checkpoints/wav2vec-mini/wav2vec-mini-pretrained.pt"
+checkpoint = load_pretrained(model, optimizer, scheduler, checkpoint_path)
+```
+
+> 🛠️ **Want to retrain the model?**  
+> Simply run the `pipeline.py` file included in this repository to launch full training with your configuration and data setup.
+
+
 ## 💾 Model Checkpoints
 
 Pretrained and finetuned model checkpoints are available for download:
 
-- **Pretrained model** on LibriSpeech 100-hour dataset: [Download link coming soon]  
-- **Finetuned model** on Bulgarian speech dataset: [Download link coming soon]
+- **Pretrained model** on LibriSpeech 100-hour dataset: [Download](https://drive.google.com/file/d/1422biBERnIZ1VKnP3IE89Guo8tFxtI2l/view?usp=sharing)
+- **Finetuned model** on Bulgarian speech dataset: [Download](https://drive.google.com/file/d/1N9UnpMKyk7Z1busA076A4BEj25KwWS5X/view?usp=sharing)
 
 ---
 
