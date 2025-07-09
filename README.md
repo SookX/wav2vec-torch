@@ -86,7 +86,7 @@ The final training objective includes both:
 
 ---
 
-## ⚙️ Pretraining
+## ⚙️ Pre-training
 
 The wav2vec 2.0 model was pretrained on the **LibriSpeech 100-hour** dataset using the following configuration:
 
@@ -100,14 +100,33 @@ The entire pretraining process took **≈ 12 hours**.
 
 ---
 
-## Fine-tuning
+## 🛠️ Fine-tuning
+
+The model is currently being **fine-tuned** on **Bulgarian 🇧🇬 speech data** to adapt the pretrained representations for downstream tasks like automatic speech recognition (ASR).
+
+### 🎙️ Dataset
+
+Due to the scarcity of publicly available Bulgarian speech corpora, this project uses the **only known open-source dataset**:
+
+> 🔗 **[Bulgarian TTS Dataset](https://github.com/vislupus/Bulgarian-TTS-dataset)**  
+> 🗣️ Curated by [vislupus](https://github.com/vislupus)
+
+Key characteristics of the dataset:
+
+- **Total duration:** ~10 hours of audio  
+- **Sampling rate:** 22.05 kHz (downsampled to 16 kHz during preprocessing)  
+- **Content:** Read-aloud sentences from various Bulgarian texts  
+- **License:** Public and available for research use  
+
+While the dataset is relatively small and intended for **text-to-speech (TTS)** tasks, it has been repurposed here for **speech representation learning** and **ASR fine-tuning** due to lack of alternatives.
+
 ---
 
 ## 💾 Model Checkpoints
 
 Pretrained and fine-tuned model checkpoints are available for download:
 
-- **Pretrained model** on LibriSpeech 100-hour dataset: [Download link coming soon]  
+- **Pre-trained model** on LibriSpeech 100-hour dataset: [Download link coming soon]  
 - **Fine-tuned model** on Bulgarian speech dataset: [Download link coming soon]
 
 ---
