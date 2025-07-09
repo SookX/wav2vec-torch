@@ -96,13 +96,13 @@ The wav2vec 2.0 model was pretrained on the **LibriSpeech 100-hour** dataset usi
 - **Learning rate:** 3e-4  
 
 Training was performed on a single **NVIDIA RTX 3080 GPU** with 12 GB of VRAM.  
-The entire pretraining process took **≈ 12 hours**.
+The entire pre-training process took **≈ 12 hours**.
 
 ---
 
 ## 🛠️ Fine-tuning
 
-The model is currently being **fine-tuned** on **Bulgarian 🇧🇬 speech data** to adapt the pretrained representations for downstream tasks like automatic speech recognition (ASR).
+The model is currently being **finetuned** on **Bulgarian 🇧🇬 speech data** to adapt the pretrained representations for downstream tasks like automatic speech recognition (ASR).
 
 ### 🎙️ Dataset
 
@@ -124,10 +124,10 @@ While the dataset is relatively small and intended for **text-to-speech (TTS)** 
 
 ## 💾 Model Checkpoints
 
-Pretrained and fine-tuned model checkpoints are available for download:
+Pretrained and finetuned model checkpoints are available for download:
 
-- **Pre-trained model** on LibriSpeech 100-hour dataset: [Download link coming soon]  
-- **Fine-tuned model** on Bulgarian speech dataset: [Download link coming soon]
+- **Pretrained model** on LibriSpeech 100-hour dataset: [Download link coming soon]  
+- **Finetuned model** on Bulgarian speech dataset: [Download link coming soon]
 
 ---
 
