@@ -59,7 +59,7 @@ The model is trained to **distinguish true future samples from negatives**. For 
 
 The **contrastive loss** is defined as:
 
-**L<sub>m</sub> = -log [ exp(sim(c<sub>t</sub>, q<sub>t</sub>) / κ) / Σ<sub>q̃ ∈ Q<sub>t</sub></sub> exp(sim(c<sub>t</sub>, q̃) / κ) ]**
+**$\mathcal{L}_m$= -log [ exp(sim(c<sub>t</sub>, q<sub>t</sub>) / κ) / Σ<sub>q̃ ∈ Q<sub>t</sub></sub> exp(sim(c<sub>t</sub>, q̃) / κ) ]**
 
 
 Where:
@@ -71,7 +71,7 @@ The final training objective includes both:
 - **Contrastive loss** $\mathcal{L}_m$
 - **Codebook diversity loss** $\mathcal{L}_d$ (to ensure codebook usage)
   \
-**L = L_m + α · L_d**
+**$\mathcal{L}$ = $\mathcal{L}_m$ + α · $\mathcal{L}_d$**
 
 ---
 
